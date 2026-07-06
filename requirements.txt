@@ -6,3 +6,4 @@ rembg
 opencv-python
 numpy
 aiofiles
+httpx
