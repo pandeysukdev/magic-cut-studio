@@ -10,6 +10,7 @@ import numpy as np
 import cv2
 import time
 import uvicorn
+import gc  # For memory management
 
 app = FastAPI(title="Magic Cut Studio")
 
@@ -27,7 +28,8 @@ DOWNLOAD_DIR = "downloads"
 os.makedirs(DOWNLOAD_DIR, exist_ok=True)
 
 # Load AI model once (cached for speed)
-session_cache = new_session("isnet-general-use")
+# Using u2net - smaller and works on 512MB RAM
+session_cache = new_session("u2net")
 
 # Cache system - makes it super fast!
 GLOBAL_CACHE = {
@@ -143,6 +145,9 @@ async def remove_background(
         output_img.save(output_path, "PNG")
         
         processing_time = round((time.time() - start_time) * 1000)
+        
+        # Free up memory
+        gc.collect()
         
         # Return the image with processing time
         response = FileResponse(output_path, media_type="image/png")
