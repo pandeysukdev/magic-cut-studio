@@ -3,8 +3,9 @@ uvicorn
 gunicorn
 python-multipart
 pillow
-rembg
+onnxruntime
 opencv-python
 numpy
 aiofiles
 httpx
+rembg
